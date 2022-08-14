@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Property>
+@{
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Tarih</th>
+            <th scope="col">Başlık</th>
+            <th scope="col">Fiyat</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var property in Model)
+        {
+            <tr>
+                <th>@property.Date</th>
+                <td>@property.Headline</td>
+                <td>@property.Price</td>
+                <td>
+                    ? ?
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
