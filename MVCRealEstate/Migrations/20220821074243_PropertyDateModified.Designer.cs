@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVCRealEstate.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220813101812_Init")]
-    partial class Init
+    [Migration("20220821074243_PropertyDateModified")]
+    partial class PropertyDateModified
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,6 +140,28 @@ namespace MVCRealEstate.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("80057419-e9f1-42d1-ab26-1c632176e480"),
+                            Name = "Konut"
+                        },
+                        new
+                        {
+                            Id = new Guid("21531705-fa38-40de-9bba-7039a9549ed7"),
+                            Name = "Dükkan"
+                        },
+                        new
+                        {
+                            Id = new Guid("0250e03a-3839-4fa5-a9bc-9fe3966f6f46"),
+                            Name = "Arsa"
+                        },
+                        new
+                        {
+                            Id = new Guid("bd773033-227e-460a-b492-d218ac693f00"),
+                            Name = "Yazlık"
+                        });
                 });
 
             modelBuilder.Entity("MVCRealEstate.Data.Property", b =>
@@ -152,6 +174,9 @@ namespace MVCRealEstate.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descriptions")

@@ -1,0 +1,55 @@
+﻿@model Property
+@{
+    ViewData["Title"] = "İlan Ekleme";
+}
+<h4>
+    @ViewData["Title"]
+</h4>
+<hr />
+<form novalidate method="post">
+    <div class="mb-3">
+        <label asp-for="Type" class="form-label"></label>
+        <select class="form-select" asp-for="Type" asp-items="@Html.GetEnumSelectList<PropertyTypes>()">
+            <option selected disabled value="">Seçiniz...</option>
+        </select>
+        <span asp-validation-for="Type"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label"></label>
+        <select class="form-select" asp-for="CategoryId" asp-items="@ViewBag.Categories">
+            <option selected disabled value="">Seçiniz...</option>
+        </select>
+        <span asp-validation-for="CategoryId"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Headline" class="form-label"></label>
+        <input asp-for="Headline" class="form-control">
+        <span asp-validation-for="Headline"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" class="form-control">
+        <span asp-validation-for="Price"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Descriptions" class="form-label"></label>
+        <textarea asp-for="Descriptions" class="form-control"></textarea>
+        <span asp-validation-for="Descriptions"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Enabled" class="form-check-label"></label>
+        <input asp-for="Enabled" class="form-check-input">
+    </div>
+    <hr />
+    <button type="submit" class="btn btn-primary">
+        <i class="fa fa-save"></i>
+        Kaydet
+    </button>
+    <a asp-action="Index" class="btn btn-link">İptal</a>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

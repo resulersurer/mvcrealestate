@@ -191,6 +191,17 @@ namespace MVCRealEstate.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("0250e03a-3839-4fa5-a9bc-9fe3966f6f46"), "Arsa" },
+                    { new Guid("21531705-fa38-40de-9bba-7039a9549ed7"), "Dükkan" },
+                    { new Guid("80057419-e9f1-42d1-ab26-1c632176e480"), "Konut" },
+                    { new Guid("bd773033-227e-460a-b492-d218ac693f00"), "Yazlık" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",

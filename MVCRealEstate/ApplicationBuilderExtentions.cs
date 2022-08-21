@@ -14,6 +14,8 @@ namespace MVCRealEstate
 
             var userManeger = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
+            context.Database.Migrate();
+
             var user = new User
             {
                 Name = config.GetValue<string>("DefaultUser:Name"),
@@ -23,8 +25,6 @@ namespace MVCRealEstate
             };
 
             userManeger.CreateAsync(user, config.GetValue<string>("DefaultUser:Password")).Wait();
-
-            context.Database.Migrate();
 
             return builder;
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MVCRealEstate.Data;
 using MVCRealEstate.Models;
@@ -33,6 +34,14 @@ namespace MVCRealEstate.Controllers
                 ModelState.AddModelError("", "Geçersiz kullanıcı girişi");
                 return View(model);
             }
+        }
+
+
+        [HttpGet, Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return Redirect("/");
         }
     }
 }

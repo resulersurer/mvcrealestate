@@ -1,0 +1,7 @@
+﻿@model Property
+@{
+}
+<h1>@Model.Headline</h1>
+<div class="text-info">@Model.Date.ToLongDateString()</div>
+<h4 class="text-success">@Model.Price.ToString("n0")</h4>
+<div class="blockquote">@Model.Descriptions</div>

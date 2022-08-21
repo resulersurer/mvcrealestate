@@ -9,11 +9,11 @@ namespace MVCRealEstate.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize]
-    public class PropertiesController : Controller
+    public class CategoriesController : Controller
     {
         private readonly AppDbContext context;
 
-        public PropertiesController(
+        public CategoriesController(
             AppDbContext context
             )
         {
@@ -24,9 +24,8 @@ namespace MVCRealEstate.Areas.Admin.Controllers
         {
             //Eager
             var result = await context
-                .Properties
-                .Include(p => p.Category)
-                .OrderByDescending(p => p.Date)
+                .Categories
+                .OrderBy(p => p.Name)
                 .ToListAsync();
 
             return View(result);
@@ -34,28 +33,24 @@ namespace MVCRealEstate.Areas.Admin.Controllers
 
         public async Task<IActionResult> Create()
         {
-            await CreateDropdownsAsync();
+            ViewBag.Categories = new SelectList(context.Categories, "Id", "Name");
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Property model)
+        public async Task<IActionResult> Create(Category model)
         {
-            model.Date =
-            model.DateModified = DateTime.Now;
-
-            context.Properties.Add(model);
+            context.Categories.Add(model);
 
             try
             {
-
                 await context.SaveChangesAsync();
-                TempData["success"] = "İlan ekleme işlemi başarıyla tamamlanmıştır!";
+                TempData["success"] = "Kategori ekleme işlemi başarıyla tamamlanmıştır!";
                 return RedirectToAction("Index");
             }
             catch (DbException)
             {
-                await CreateDropdownsAsync();
+                ViewBag.Categories = new SelectList(context.Categories, "Id", "Name");
                 return View(model);
             }
 
@@ -64,12 +59,12 @@ namespace MVCRealEstate.Areas.Admin.Controllers
         [HttpGet()]
         public async Task<IActionResult> Remove(Guid id)
         {
-            var model = await context.Properties.FindAsync(id);
-            context.Properties.Remove(model);
+            var model = await context.Categories.FindAsync(id);
+            context.Categories.Remove(model);
             try
             {
                 await context.SaveChangesAsync();
-                TempData["success"] = "İlan silme işlemi başarıyla tamamlanmıştır!";
+                TempData["success"] = "Kategori silme işlemi başarıyla tamamlanmıştır!";
 
             }
             catch (Exception)
@@ -77,38 +72,35 @@ namespace MVCRealEstate.Areas.Admin.Controllers
 
             }
             return RedirectToAction("Index");
+
         }
+
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            var model = await context.Properties.FindAsync(id);
-            await CreateDropdownsAsync();
+            var model = await context.Categories.FindAsync(id);
+            ViewBag.Categories = new SelectList(context.Categories, "Id", "Name");
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Property model)
+        public async Task<IActionResult> Edit(Category model)
         {
-            model.DateModified = DateTime.Now;
-
-            context.Properties.Update(model);
+            context.Categories.Update(model);
             try
             {
                 await context.SaveChangesAsync();
-                TempData["success"] = "İlan güncelleme işlemi başarıyla tamamlanmıştır!";
+                TempData["success"] = "Kategori güncelleme işlemi başarıyla tamamlanmıştır!";
                 return RedirectToAction("Index");
             }
             catch (DbException)
             {
-                await CreateDropdownsAsync();
+                ViewBag.Categories = new SelectList(context.Categories, "Id", "Name");
                 return View(model);
             }
 
         }
 
-        private async Task CreateDropdownsAsync()
-        {
-            ViewBag.Categories = new SelectList(await context.Categories.OrderBy(p => p.Name).ToListAsync(), "Id", "Name");
-        }
+
     }
 }

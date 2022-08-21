@@ -46,12 +46,13 @@ app.UseAuthorization(); //yetki
 app.UseMVCRealEstate();
 
 app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 //app.MapAreaControllerRoute("admin", "Admin", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 

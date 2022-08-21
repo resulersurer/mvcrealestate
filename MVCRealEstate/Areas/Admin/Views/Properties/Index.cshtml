@@ -1,10 +1,19 @@
 ﻿@model IEnumerable<Property>
 @{
 }
-<table class="table">
+<div class="d-flex pb-4">
+    <a asp-action="Create" class="btn btn-success ms-auto">
+        <i class="fa fa-plus"></i> Yeni Kayıt
+    </a>
+</div>
+<table class="table table-bordered">
     <thead>
         <tr>
             <th scope="col">Tarih</th>
+            <th scope="col">Son Güncelleme</th>
+            <th scope="col">Etkin</th>
+            <th scope="col">Tür</th>
+            <th scope="col">Kategori</th>
             <th scope="col">Başlık</th>
             <th scope="col">Fiyat</th>
             <th scope="col"></th>
@@ -14,13 +23,58 @@
         @foreach (var property in Model)
         {
             <tr>
-                <th>@property.Date</th>
-                <td>@property.Headline</td>
-                <td>@property.Price</td>
+                <td>@property.Date.ToShortDateString()</td>
+                <td>@property.DateModified.ToShortDateString() (@property.DateModified.ToShortTimeString())</td>
                 <td>
-                    ? ?
+                    @if (property.Enabled)
+                    {
+                        <i class="fa fa-check text-success"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-remove text-danger"></i>
+                    }
+                </td>
+                <td>@property.Type</td>
+                <td>@property.Category.Name</td>
+                <td>@property.Headline</td>
+                <td>@property.Price.ToString("c0")</td>
+                <td>
+                    <a class="text-decoration-none" asp-area="" asp-controller="Home" asp-action="Detail" asp-route-id="@property.Id">
+                        <i class="fa fa-search text-secondary"></i>
+                    </a>
+                    <a class="text-decoration-none" asp-action="Edit" asp-route-id="@property.Id">
+                        <i class="fa fa-edit text-secondary"></i>
+                    </a>
+                    <a class="text-decoration-none btn-remove" asp-action="Remove" asp-route-id="@property.Id">
+                        <i class="fa fa-trash text-danger"></i>
+                    </a>
                 </td>
             </tr>
-        }
+    }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(() => {
+            $('.btn-remove').click((evt) => {
+                Swal.fire({
+                    icon: 'warning',
+                    title: "UYARI!",
+                    html: "Eminmisiniz?",
+                    showCancelButton: true,
+                    cancelButtonText: 'İptal',
+                    confirmButtonText: '<i class="fa fa-trash"></i> SİL'
+                })
+                    .then((result) => {
+                        if (result.value) {
+                            window.location = $(evt.currentTarget).attr('href');
+                        }
+                    });
+
+                return false;
+            });
+        });
+    </script>
+}

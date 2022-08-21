@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Category>
+@{
+}
+<div class="d-flex pb-4">
+    <a asp-action="Create" class="btn btn-success ms-auto">
+        <i class="fa fa-plus"></i> Yeni Kayıt
+    </a>
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Ad</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.Id">
+                        <i class="fa fa-edit text-secondary"></i>
+                    </a>
+                    <a class="text-decoration-none btn-remove" asp-action="Remove" asp-route-id="@item.Id">
+                        <i class="fa fa-trash text-danger"></i>
+                    </a>
+                </td>
+            </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(() => {
+            $('.btn-remove').click((evt) => {
+                Swal.fire({
+                    icon: 'warning',
+                    title: "UYARI!",
+                    html: "Eminmisiniz?",
+                    showCancelButton: true,
+                    cancelButtonText: 'İptal',
+                    confirmButtonText: '<i class="fa fa-trash"></i> SİL'
+                })
+                    .then((result) => {
+                        if (result.value) {
+                            window.location = $(evt.currentTarget).attr('href');
+                        }
+                    });
+
+                return false;
+            });
+        });
+    </script>
+}
